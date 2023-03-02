@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import "./styles.css";
+import { InputArea } from "./components/InputArea";
+import { IncompleteArea } from "./components/IncompleteArea";
+import { CompleteArea } from "./components/CompleteArea";
 
 export const App = () => {
   const [todoText, setTodoText] = useState([""]);
-  const [incompleteTodos, setIncompleteTodos] = useState(["あああ", "いいい"]);
-  const [completeTodos, setCompleteTodos] = useState(["ううう"]);
+  const [incompleteTodos, setIncompleteTodos] = useState([]);
+  const [completeTodos, setCompleteTodos] = useState([]);
 
   const onChangeTodoText = (event) => setTodoText(event.target.value);
 
@@ -22,7 +25,7 @@ export const App = () => {
   };
 
   const onClickComplete = (index) => {
-    alert("お疲れ様でした! ヾ(´∀｀*)");
+    alert("お疲れ様でした!  ヾ(´∀｀*)");
     const newIncompleteTodos = [...incompleteTodos];
     newIncompleteTodos.splice(index, 1);
     setIncompleteTodos(newIncompleteTodos);
@@ -43,41 +46,26 @@ export const App = () => {
 
   return (
     <>
-      <div className="input-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-      <div className="incomplete-area">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {incompleteTodos.map((todo, index) => {
-            return (
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-      <div className="complete-area">
-        <p className="title">完了したTODO</p>
-        <ul>
-          {completeTodos.map((todo, index) => {
-            return (
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickRestore(index)}>戻す</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      <InputArea
+        todoText={todoText}
+        onChangeTodoText={onChangeTodoText}
+        onClickAdd={onClickAdd}
+        disabled={incompleteTodos.length >= 10}
+      />
+      {incompleteTodos.length >= 10 && (
+        <p style={{ color: "#6B8E23" }}>
+          登録できるtodoは10個までだ！消化せよ！
+        </p>
+      )}
+      <IncompleteArea
+        incompleteTodos={incompleteTodos}
+        onClickComplete={onClickComplete}
+        onClickDelete={onClickDelete}
+      />
+      <CompleteArea
+        completeTodos={completeTodos}
+        onClickRestore={onClickRestore}
+      />
     </>
   );
 };
