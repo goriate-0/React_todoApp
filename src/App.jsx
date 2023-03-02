@@ -22,7 +22,7 @@ export const App = () => {
   };
 
   const onClickComplete = (index) => {
-    alert("お疲れ様でした! ヾ(´∀｀*)");
+    alert("お疲れ様でした!  ヾ(´∀｀*)");
     const newIncompleteTodos = [...incompleteTodos];
     newIncompleteTodos.splice(index, 1);
     setIncompleteTodos(newIncompleteTodos);
